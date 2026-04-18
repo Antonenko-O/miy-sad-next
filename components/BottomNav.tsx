@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Sprout, Droplets, Sun } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type Tab = 'home' | 'catalog' | 'garden' | 'calendar';
 
@@ -10,12 +11,12 @@ interface BottomNavProps {
   onTabChange: (tab: Tab) => void;
 }
 
-const tabs: { id: Tab; label: string; color: string; textColor: string }[] = [
-  { id: 'home',     label: 'Головна',  color: '#FFDCF6', textColor: '#34552B' },
-  { id: 'catalog',  label: 'Каталог',  color: '#DCFCE7', textColor: '#1E3A5F' },
-  { id: 'garden',   label: 'Мій сад',  color: '#FFE4CC', textColor: '#7C2D12' },
-  { id: 'calendar', label: 'Календар', color: '#EDE9FE', textColor: '#5B21B6' },
-];
+const TAB_COLORS: Record<Tab, { color: string; textColor: string }> = {
+  home:     { color: '#FFDCF6', textColor: '#34552B' },
+  catalog:  { color: '#DCFCE7', textColor: '#1E3A5F' },
+  garden:   { color: '#FFE4CC', textColor: '#7C2D12' },
+  calendar: { color: '#EDE9FE', textColor: '#5B21B6' },
+};
 
 function TabIcon({ id, color }: { id: Tab; color: string }) {
   const style = { color };
@@ -38,6 +39,9 @@ function TabIcon({ id, color }: { id: Tab; color: string }) {
 }
 
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
+  const t = useTranslations('nav');
+  const tabIds: Tab[] = ['home', 'catalog', 'garden', 'calendar'];
+
   return (
     <div
       style={{
@@ -53,14 +57,15 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
         alignItems: 'flex-end',
       }}
     >
-      {tabs.map((tab) => {
-        const isActive = activeTab === tab.id;
+      {tabIds.map((id) => {
+        const { color, textColor } = TAB_COLORS[id];
+        const isActive = activeTab === id;
         return (
           <button
-            key={tab.id}
-            onClick={() => onTabChange(tab.id)}
+            key={id}
+            onClick={() => onTabChange(id)}
             style={{
-              backgroundColor: tab.color,
+              backgroundColor: color,
               opacity: isActive ? 1 : 0.4,
               height: isActive ? '72px' : '60px',
               paddingTop: isActive ? '14px' : '10px',
@@ -78,16 +83,16 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               cursor: 'pointer',
             }}
           >
-            <TabIcon id={tab.id} color={tab.textColor} />
+            <TabIcon id={id} color={textColor} />
             <span
               style={{
                 fontFamily: 'DM Sans, sans-serif',
                 fontSize: '10px',
                 fontWeight: 500,
-                color: tab.textColor,
+                color: textColor,
               }}
             >
-              {tab.label}
+              {t(id)}
             </span>
           </button>
         );

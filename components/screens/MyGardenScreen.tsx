@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { Plus } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
 import { PlantIcon } from '@/components/PlantIcon';
 import { CareDrawer } from '@/components/CareDrawer';
 import { myGardenPlants as defaultGardenPlants, getTodayTasks } from '@/lib/myGarden';
@@ -33,6 +34,11 @@ const cardBg = '#FFF3E8';
 const pinColor = '#7C2D12';
 
 export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string) => void }) {
+  const t = useTranslations('garden');
+  const tCare = useTranslations('care');
+  const tSeasons = useTranslations('seasons');
+  const locale = useLocale();
+
   const [garden, setGarden] = useState<GardenPlant[]>(defaultGardenPlants);
   const tasks = useMemo(() => getTodayTasks(), []);
   const [drawerType, setDrawerType] = useState<'water' | 'prune' | 'fertilize' | null>(null);
@@ -81,23 +87,28 @@ export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string)
     }
   };
 
-  const season = ['Зима','Зима','Весна','Весна','Весна','Літо','Літо','Літо','Осінь','Осінь','Осінь','Зима'][new Date().getMonth()];
+  const seasonKeys = ['winter', 'winter', 'spring', 'spring', 'spring', 'summer',
+    'summer', 'summer', 'autumn', 'autumn', 'autumn', 'winter'] as const;
+  const season = tSeasons(seasonKeys[new Date().getMonth()]);
+
+  // Suppress unused variable warning for locale (used for future extensibility)
+  void locale;
 
   return (
     <div className="px-6 pt-12 pb-4">
       <h1 style={{ fontFamily: 'Caveat, cursive', fontSize: '40px', color: accent, fontWeight: 600 }}>
-        Мій сад
+        {t('title')}
       </h1>
       <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '14px', color: '#34552B', opacity: 0.6, marginTop: '4px', marginBottom: '24px' }}>
-        {garden.length} рослин · {season}
+        {garden.length} {t('plants')} · {season}
       </p>
 
       {/* Summary strip — clickable */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '32px' }}>
         {[
-          { value: String(tasks.water.length),     label: 'Полив сьогодні',    rotation: '-0.8deg', type: 'water'     as const, items: tasks.water },
-          { value: String(tasks.prune.length),     label: 'Обрізка зараз',     rotation: '0.5deg',  type: 'prune'     as const, items: tasks.prune },
-          { value: String(tasks.fertilize.length), label: 'Підживлення зараз', rotation: '-0.3deg', type: 'fertilize' as const, items: tasks.fertilize },
+          { value: String(tasks.water.length),     label: tCare('waterToday'),    rotation: '-0.8deg', type: 'water'     as const, items: tasks.water },
+          { value: String(tasks.prune.length),     label: tCare('pruneNow'),      rotation: '0.5deg',  type: 'prune'     as const, items: tasks.prune },
+          { value: String(tasks.fertilize.length), label: tCare('fertilizeNow'), rotation: '-0.3deg', type: 'fertilize' as const, items: tasks.fertilize },
         ].map((s) => (
           <div key={s.label} onClick={() => { setDrawerType(s.type); setDrawerItems(s.items); }} style={{
             padding: '12px 8px', textAlign: 'center',
@@ -139,7 +150,7 @@ export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string)
               {/* Remove button */}
               <button
                 onClick={(e) => { e.stopPropagation(); removeFromGarden(gp.id); }}
-                title="Видалити з саду"
+                title={t('removeFromGarden')}
                 style={{
                   position: 'absolute', top: '8px', right: '10px',
                   width: '22px', height: '22px',
@@ -191,7 +202,7 @@ export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string)
         }}>
           <Plus size={28} color={accent} strokeWidth={1.5} />
           <span style={{ fontFamily: 'Caveat, cursive', fontSize: '22px', color: accent, fontWeight: 500 }}>
-            Додати рослину
+            {t('addPlant')}
           </span>
         </div>
       </div>

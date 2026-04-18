@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Plus } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
 import { CareCard } from '@/components/CareCard';
 import { CareDrawer } from '@/components/CareDrawer';
 import { PlantIcon } from '@/components/PlantIcon';
@@ -19,7 +20,6 @@ const WaterIcon = () => (
 
 const PruneIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    {/* Scissors */}
     <circle cx="12" cy="24" r="4" stroke="#34552B" strokeWidth="1.5" />
     <circle cx="12" cy="12" r="4" stroke="#34552B" strokeWidth="1.5" />
     <path d="M15 21L26 10" stroke="#34552B" strokeWidth="1.5" strokeLinecap="round" />
@@ -29,7 +29,6 @@ const PruneIcon = () => (
 
 const FertilizeIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    {/* Watering can with dots */}
     <path d="M8 14H22L20 26H10L8 14Z" stroke="#34552B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M22 17H27L25 22" stroke="#34552B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M8 14C8 14 10 10 15 10H18" stroke="#34552B" strokeWidth="1.5" strokeLinecap="round" />
@@ -48,21 +47,32 @@ interface HomeScreenProps {
 }
 
 export function HomeScreen({ onAddPlant, onSelectPlant }: HomeScreenProps) {
+  const t = useTranslations('home');
+  const tCare = useTranslations('care');
+  const tSeasons = useTranslations('seasons');
+  const locale = useLocale();
+
   const [drawerType, setDrawerType] = useState<'water' | 'prune' | 'fertilize' | null>(null);
   const tasks = useMemo(() => getTodayTasks(), []);
+
+  // Locale-aware date + season
   const now = new Date();
-  const days = ['неділю', 'понеділок', 'вівторок', 'середу', 'четвер', 'п\'ятницю', 'суботу'];
-  const months = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня',
-    'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
-  const season = ['Зима', 'Зима', 'Весна', 'Весна', 'Весна', 'Літо',
-    'Літо', 'Літо', 'Осінь', 'Осінь', 'Осінь', 'Зима'][now.getMonth()];
-  const dateStr = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} · ${season}`;
+  const dateLocale = locale === 'uk' ? 'uk-UA' : 'en-US';
+  const dateFormatted = new Intl.DateTimeFormat(dateLocale, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  }).format(now);
+  const seasonKeys = ['winter', 'winter', 'spring', 'spring', 'spring', 'summer',
+    'summer', 'summer', 'autumn', 'autumn', 'autumn', 'winter'] as const;
+  const season = tSeasons(seasonKeys[now.getMonth()]);
+  const dateStr = `${dateFormatted} · ${season}`;
 
   return (
     <div className="px-6 pt-12 pb-4">
       {/* Greeting */}
       <h1 style={{ fontFamily: 'Caveat, cursive', fontSize: '40px', color: '#34552B', fontWeight: 600, lineHeight: 1.2 }}>
-        Доброго ранку, Ольго 🌿
+        {t('greeting')}
       </h1>
       <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '13px', color: '#34552B', opacity: 0.6, marginTop: '4px', marginBottom: '32px' }}>
         {dateStr}
@@ -70,18 +80,18 @@ export function HomeScreen({ onAddPlant, onSelectPlant }: HomeScreenProps) {
 
       {/* Care Cards */}
       <h2 style={{ fontFamily: 'Caveat, cursive', fontSize: '28px', color: '#34552B', fontWeight: 500, marginBottom: '16px' }}>
-        Сьогодні потрібен догляд
+        {t('careToday')}
       </h2>
       <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '32px' }}>
-        <CareCard icon={<WaterIcon />} title="Полив" count={tasks.water.length} rotation="-1.5deg" onClick={() => setDrawerType('water')} />
-        <CareCard icon={<PruneIcon />} title="Обрізка" count={tasks.prune.length} rotation="0.5deg" onClick={() => setDrawerType('prune')} />
-        <CareCard icon={<FertilizeIcon />} title="Підживлення" count={tasks.fertilize.length} rotation="-0.8deg" onClick={() => setDrawerType('fertilize')} />
+        <CareCard icon={<WaterIcon />} title={tCare('water')} count={tasks.water.length} rotation="-1.5deg" onClick={() => setDrawerType('water')} />
+        <CareCard icon={<PruneIcon />} title={tCare('prune')} count={tasks.prune.length} rotation="0.5deg" onClick={() => setDrawerType('prune')} />
+        <CareCard icon={<FertilizeIcon />} title={tCare('fertilize')} count={tasks.fertilize.length} rotation="-0.8deg" onClick={() => setDrawerType('fertilize')} />
       </div>
 
       {/* My Garden Preview */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
         <h2 style={{ fontFamily: 'Caveat, cursive', fontSize: '28px', color: '#34552B', fontWeight: 500 }}>
-          Мій сад
+          {t('myGarden')}
         </h2>
         <button
           onClick={onAddPlant}
@@ -92,7 +102,7 @@ export function HomeScreen({ onAddPlant, onSelectPlant }: HomeScreenProps) {
             padding: '8px 14px', border: 'none', cursor: 'pointer',
           }}
         >
-          <Plus size={16} /> Додати
+          <Plus size={16} /> {t('addShort')}
         </button>
       </div>
 

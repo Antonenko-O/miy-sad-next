@@ -6,14 +6,31 @@
     "calendar": "Календар"
   },
   "home": {
+    "greeting": "Доброго ранку, Ольго 🌿",
+    "careToday": "Сьогодні потрібен догляд",
+    "myGarden": "Мій сад",
+    "addShort": "Додати",
     "title": "My Garden 🌱",
     "subtitle": "Ваш особистий садовий щоденник",
-    "myGarden": "Мій сад",
     "addPlant": "Додати рослину",
     "recentPlants": "Нещодавно додані",
     "noPlants": "Ваш сад поки порожній",
     "noPlantsSub": "Додайте першу рослину з каталогу",
     "browseCatalog": "Переглянути каталог"
+  },
+  "seasons": {
+    "spring": "Весна",
+    "summer": "Літо",
+    "autumn": "Осінь",
+    "winter": "Зима"
+  },
+  "care": {
+    "water": "Полив",
+    "prune": "Обрізка",
+    "fertilize": "Підживлення",
+    "waterToday": "Полив сьогодні",
+    "pruneNow": "Обрізка зараз",
+    "fertilizeNow": "Підживлення зараз"
   },
   "catalog": {
     "title": "Каталог",
@@ -55,6 +72,9 @@
   },
   "garden": {
     "title": "Мій сад",
+    "plants": "рослин",
+    "addPlant": "Додати рослину",
+    "removeFromGarden": "Видалити з саду",
     "empty": "Ваш сад поки порожній",
     "emptySub": "Додавайте рослини з каталогу щоб стежити за їх доглядом",
     "addFirst": "Додати першу рослину"

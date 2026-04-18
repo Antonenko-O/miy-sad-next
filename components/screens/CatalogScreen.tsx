@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { CatalogCard } from '@/components/CatalogCard';
 import { DiseasesSection } from '@/components/DiseasesSection';
 import { ToolsSection } from '@/components/ToolsSection';
@@ -10,19 +11,13 @@ import type { CategoryId } from '@/types';
 type FilterId = 'all' | CategoryId;
 type Section = 'plants' | 'diseases' | 'tools';
 
-const SECTIONS: { id: Section; label: string; emoji: string }[] = [
-  { id: 'plants',   label: 'Рослини',    emoji: '🌱' },
-  { id: 'diseases', label: 'Хвороби',    emoji: '🦠' },
-  { id: 'tools',    label: 'Інструменти', emoji: '🪴' },
+const SECTION_IDS: { id: Section; emoji: string }[] = [
+  { id: 'plants',   emoji: '🌱' },
+  { id: 'diseases', emoji: '🦠' },
+  { id: 'tools',    emoji: '🪴' },
 ];
 
-const FILTERS: { id: FilterId; label: string }[] = [
-  { id: 'all',          label: 'Усі' },
-  { id: 'kvity',        label: 'Квіти' },
-  { id: 'kushchi',      label: 'Кущі' },
-  { id: 'plodovi',      label: 'Плодові' },
-  { id: 'dekoratyvni',  label: 'Декоративні' },
-];
+const FILTER_IDS: FilterId[] = ['all', 'kvity', 'kushchi', 'plodovi', 'dekoratyvni'];
 
 interface CatalogScreenProps {
   onSelectPlant: (id: string) => void;
@@ -31,6 +26,8 @@ interface CatalogScreenProps {
 }
 
 export function CatalogScreen({ onSelectPlant, initialDiseaseId, onDiseaseOpened }: CatalogScreenProps) {
+  const t = useTranslations('catalog');
+
   const [section, setSection] = useState<Section>(initialDiseaseId ? 'diseases' : 'plants');
   const [activeFilter, setActiveFilter] = useState<FilterId>('all');
   const [query, setQuery] = useState('');
@@ -43,29 +40,23 @@ export function CatalogScreen({ onSelectPlant, initialDiseaseId, onDiseaseOpened
     return catalog.plants.filter((p) => p.category === activeFilter);
   }, [activeFilter, query]);
 
-  // When switching away from plants, clear search
   const handleSectionChange = (s: Section) => {
     setSection(s);
-    if (s !== 'plants') {
-      setQuery('');
-    }
+    if (s !== 'plants') setQuery('');
   };
 
   return (
     <div className="px-6 pt-12 pb-4">
       <h1 style={{ fontFamily: 'Caveat, cursive', fontSize: '40px', color: accent, fontWeight: 600, marginBottom: '4px' }}>
-        Каталог 📚
+        {t('title')} 📚
       </h1>
-      <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '14px', color: accent, opacity: 0.6, marginBottom: '20px' }}>
-        Рослини, хвороби і садові інструменти
-      </p>
 
       {/* Section switcher */}
       <div style={{
         display: 'flex', backgroundColor: '#F1F5F9', borderRadius: '12px',
-        padding: '4px', gap: '4px', marginBottom: '20px',
+        padding: '4px', gap: '4px', marginBottom: '20px', marginTop: '20px',
       }}>
-        {SECTIONS.map((s) => (
+        {SECTION_IDS.map((s) => (
           <button
             key={s.id}
             onClick={() => handleSectionChange(s.id)}
@@ -82,7 +73,7 @@ export function CatalogScreen({ onSelectPlant, initialDiseaseId, onDiseaseOpened
               whiteSpace: 'nowrap',
             }}
           >
-            {s.emoji} {s.label}
+            {s.emoji} {t(`sections.${s.id}`)}
           </button>
         ))}
       </div>
@@ -98,7 +89,7 @@ export function CatalogScreen({ onSelectPlant, initialDiseaseId, onDiseaseOpened
             }}>🔍</span>
             <input
               type="search"
-              placeholder="Пошук рослин..."
+              placeholder={t('searchPlaceholder')}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               style={{
@@ -123,20 +114,20 @@ export function CatalogScreen({ onSelectPlant, initialDiseaseId, onDiseaseOpened
 
           {/* Category filters */}
           <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '24px' }}>
-            {FILTERS.map((f) => (
+            {FILTER_IDS.map((id) => (
               <button
-                key={f.id}
-                onClick={() => { setActiveFilter(f.id); setQuery(''); }}
+                key={id}
+                onClick={() => { setActiveFilter(id); setQuery(''); }}
                 style={{
-                  backgroundColor: activeFilter === f.id ? accent : 'transparent',
-                  color: activeFilter === f.id ? '#FFFFFF' : accent,
+                  backgroundColor: activeFilter === id ? accent : 'transparent',
+                  color: activeFilter === id ? '#FFFFFF' : accent,
                   border: `1px solid ${accent}`,
                   padding: '8px 16px', borderRadius: '20px',
                   fontFamily: 'DM Sans, sans-serif', fontSize: '13px', fontWeight: 500,
                   whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.2s ease',
                 }}
               >
-                {f.label}
+                {t(`categories.${id}`)}
               </button>
             ))}
           </div>

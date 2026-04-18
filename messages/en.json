@@ -6,14 +6,31 @@
     "calendar": "Calendar"
   },
   "home": {
+    "greeting": "Good morning, Olha 🌿",
+    "careToday": "Today's care",
+    "myGarden": "My Garden",
+    "addShort": "Add",
     "title": "My Garden 🌱",
     "subtitle": "Your personal garden journal",
-    "myGarden": "My Garden",
     "addPlant": "Add plant",
     "recentPlants": "Recently added",
     "noPlants": "Your garden is empty",
     "noPlantsSub": "Add your first plant from the catalog",
     "browseCatalog": "Browse catalog"
+  },
+  "seasons": {
+    "spring": "Spring",
+    "summer": "Summer",
+    "autumn": "Autumn",
+    "winter": "Winter"
+  },
+  "care": {
+    "water": "Watering",
+    "prune": "Pruning",
+    "fertilize": "Fertilizing",
+    "waterToday": "Water today",
+    "pruneNow": "Prune now",
+    "fertilizeNow": "Fertilize now"
   },
   "catalog": {
     "title": "Catalog",
@@ -55,6 +72,9 @@
   },
   "garden": {
     "title": "My Garden",
+    "plants": "plants",
+    "addPlant": "Add plant",
+    "removeFromGarden": "Remove from garden",
     "empty": "Your garden is empty",
     "emptySub": "Add plants from the catalog to track their care",
     "addFirst": "Add your first plant"
