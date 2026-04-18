@@ -1,0 +1,92 @@
+{
+  "nav": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "garden": "My Garden",
+    "calendar": "Calendar"
+  },
+  "home": {
+    "title": "My Garden 🌱",
+    "subtitle": "Your personal garden journal",
+    "myGarden": "My Garden",
+    "addPlant": "Add plant",
+    "recentPlants": "Recently added",
+    "noPlants": "Your garden is empty",
+    "noPlantsSub": "Add your first plant from the catalog",
+    "browseCatalog": "Browse catalog"
+  },
+  "catalog": {
+    "title": "Catalog",
+    "searchPlaceholder": "Search plants...",
+    "sections": {
+      "plants": "Plants",
+      "diseases": "Diseases",
+      "tools": "Tools"
+    },
+    "categories": {
+      "all": "All",
+      "kvity": "Flowers",
+      "kushchi": "Shrubs",
+      "plodovi": "Fruit trees",
+      "dekoratyvni": "Ornamental"
+    }
+  },
+  "plant": {
+    "care": "Care",
+    "diseases": "Diseases & pests",
+    "companions": "Companion plants",
+    "funFact": "Fun fact",
+    "watering": "Watering",
+    "pruning": "Pruning",
+    "fertilizing": "Fertilizing",
+    "winter": "Wintering",
+    "planting": "Planting",
+    "sun": "Sunlight",
+    "height": "Height",
+    "bloomMonths": "Bloom time",
+    "hardiness": "Hardiness",
+    "addToGarden": "Add to garden",
+    "inGarden": "In your garden ✓",
+    "backToList": "← Back",
+    "spring": "Spring",
+    "summer": "Summer",
+    "autumn": "Autumn",
+    "winter_season": "Winter"
+  },
+  "garden": {
+    "title": "My Garden",
+    "empty": "Your garden is empty",
+    "emptySub": "Add plants from the catalog to track their care",
+    "addFirst": "Add your first plant"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "today": "Today"
+  },
+  "diseases": {
+    "types": {
+      "fungal": "Fungal",
+      "bacterial": "Bacterial",
+      "pest": "Pests"
+    },
+    "symptoms": "Symptoms",
+    "causes": "Causes",
+    "treatment": "Treatment",
+    "prevention": "Prevention",
+    "season": "Season",
+    "urgency": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    }
+  },
+  "tools": {
+    "allTools": "All tools",
+    "care": "Tool maintenance"
+  },
+  "meta": {
+    "siteName": "My Garden",
+    "siteDescription": "Your personal garden assistant: plant database, diseases, and care advice"
+  }
+}

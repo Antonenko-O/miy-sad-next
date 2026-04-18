@@ -1,0 +1,92 @@
+{
+  "nav": {
+    "home": "Головна",
+    "catalog": "Каталог",
+    "garden": "Мій сад",
+    "calendar": "Календар"
+  },
+  "home": {
+    "title": "My Garden 🌱",
+    "subtitle": "Ваш особистий садовий щоденник",
+    "myGarden": "Мій сад",
+    "addPlant": "Додати рослину",
+    "recentPlants": "Нещодавно додані",
+    "noPlants": "Ваш сад поки порожній",
+    "noPlantsSub": "Додайте першу рослину з каталогу",
+    "browseCatalog": "Переглянути каталог"
+  },
+  "catalog": {
+    "title": "Каталог",
+    "searchPlaceholder": "Пошук рослин...",
+    "sections": {
+      "plants": "Рослини",
+      "diseases": "Хвороби",
+      "tools": "Інструменти"
+    },
+    "categories": {
+      "all": "Усі",
+      "kvity": "Квіти",
+      "kushchi": "Кущі",
+      "plodovi": "Плодові",
+      "dekoratyvni": "Декоративні"
+    }
+  },
+  "plant": {
+    "care": "Догляд",
+    "diseases": "Хвороби та шкідники",
+    "companions": "Гарно поєднується з",
+    "funFact": "Цікавий факт",
+    "watering": "Полив",
+    "pruning": "Обрізка",
+    "fertilizing": "Підживлення",
+    "winter": "Зимівля",
+    "planting": "Посадка",
+    "sun": "Освітлення",
+    "height": "Висота",
+    "bloomMonths": "Цвітіння",
+    "hardiness": "Морозостійкість",
+    "addToGarden": "Додати до саду",
+    "inGarden": "У вашому саду ✓",
+    "backToList": "← Назад",
+    "spring": "Весна",
+    "summer": "Літо",
+    "autumn": "Осінь",
+    "winter_season": "Зима"
+  },
+  "garden": {
+    "title": "Мій сад",
+    "empty": "Ваш сад поки порожній",
+    "emptySub": "Додавайте рослини з каталогу щоб стежити за їх доглядом",
+    "addFirst": "Додати першу рослину"
+  },
+  "calendar": {
+    "title": "Календар",
+    "today": "Сьогодні"
+  },
+  "diseases": {
+    "types": {
+      "fungal": "Грибкові",
+      "bacterial": "Бактерії",
+      "pest": "Шкідники"
+    },
+    "symptoms": "Симптоми",
+    "causes": "Причини",
+    "treatment": "Лікування",
+    "prevention": "Профілактика",
+    "season": "Сезон",
+    "urgency": {
+      "low": "Низька",
+      "medium": "Середня",
+      "high": "Висока",
+      "critical": "Критична"
+    }
+  },
+  "tools": {
+    "allTools": "Всі інструменти",
+    "care": "Догляд за інструментом"
+  },
+  "meta": {
+    "siteName": "My Garden",
+    "siteDescription": "Ваш особистий садовий помічник: база рослин, хвороб та порад по догляду"
+  }
+}
