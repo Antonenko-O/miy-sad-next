@@ -57,7 +57,7 @@ export function PlantDetailScreen({ plantId, onBack, onSelectPlant, onSelectDise
   if (!plant) return <div className="px-6 pt-12"><p>Рослину не знайдено</p></div>;
 
   const cfg = CATEGORY_CONFIG[plant.category];
-  const companions = getCompanions(plant.companions);
+  const companions = getCompanions(plant.companions ? plant.companions.split(',').map(s => s.trim()) : []);
 
   const careItems = [
     { emoji: '💧', label: 'Полив', value: plant.wateringFrequency },

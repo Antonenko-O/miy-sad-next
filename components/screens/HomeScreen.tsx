@@ -7,7 +7,7 @@ import { CareDrawer } from '@/components/CareDrawer';
 import { PlantIcon } from '@/components/PlantIcon';
 import { catalog } from '@/lib/data';
 import { getTodayTasks } from '@/lib/myGarden';
-import { CATEGORY_CONFIG } from '@/types';
+import { CATEGORY_CONFIG, type CategoryId } from '@/types';
 import { getPlantImageUrl } from '@/lib/plantImages';
 
 const WaterIcon = () => (
@@ -98,7 +98,7 @@ export function HomeScreen({ onAddPlant, onSelectPlant }: HomeScreenProps) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {previewPlants.map((plant, index) => {
-          const cfg = CATEGORY_CONFIG[plant.category as import('../types').CategoryId];
+          const cfg = CATEGORY_CONFIG[plant.category as CategoryId];
           const rotation = index % 2 === 0 ? '0.4deg' : '-0.4deg';
           return (
             <div
@@ -126,7 +126,7 @@ export function HomeScreen({ onAddPlant, onSelectPlant }: HomeScreenProps) {
                     <img src={img} alt={plant.name} style={{ width: '100%', height: '100%', objectFit: 'cover', mixBlendMode: 'multiply' }} />
                   </div>
                 ) : (
-                  <PlantIcon category={plant.category as import('../types').CategoryId} color={cfg.accent} size={36} opacity={0.5} />
+                  <PlantIcon category={plant.category as CategoryId} color={cfg.accent} size={36} opacity={0.5} />
                 );
               })()}
               <div style={{ flex: 1 }}>
