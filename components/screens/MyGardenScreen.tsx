@@ -21,7 +21,7 @@ const accent = '#7C2D12';
 const cardBg = '#FFF3E8';
 const pinColor = '#7C2D12';
 
-export function MyGardenScreen() {
+export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string) => void }) {
   const tasks = useMemo(() => getTodayTasks(), []);
   const [drawerType, setDrawerType] = useState<'water' | 'prune' | 'fertilize' | null>(null);
   const [drawerItems, setDrawerItems] = useState<CareTask[]>([]);
