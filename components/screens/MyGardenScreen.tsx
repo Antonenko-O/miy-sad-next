@@ -1,13 +1,24 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { PlantIcon } from '@/components/PlantIcon';
 import { CareDrawer } from '@/components/CareDrawer';
-import { myGardenPlants, getTodayTasks } from '@/lib/myGarden';
+import { myGardenPlants as defaultGardenPlants, getTodayTasks } from '@/lib/myGarden';
 import { getPlantById } from '@/lib/data';
-import type { CareTask } from '@/lib/myGarden';
+import type { CareTask, GardenPlant } from '@/lib/myGarden';
 import { getPlantImageUrl } from '@/lib/plantImages';
+
+const STORAGE_KEY = 'miy-sad-garden';
+
+function loadGarden(): GardenPlant[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? (JSON.parse(stored) as GardenPlant[]) : defaultGardenPlants;
+  } catch {
+    return defaultGardenPlants;
+  }
+}
 
 const Pin = ({ color }: { color: string }) => (
   <div style={{ position: 'absolute', top: '-8px', left: '50%', transform: 'translateX(-50%)' }}>
@@ -22,9 +33,25 @@ const cardBg = '#FFF3E8';
 const pinColor = '#7C2D12';
 
 export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string) => void }) {
+  const [garden, setGarden] = useState<GardenPlant[]>(defaultGardenPlants);
   const tasks = useMemo(() => getTodayTasks(), []);
   const [drawerType, setDrawerType] = useState<'water' | 'prune' | 'fertilize' | null>(null);
   const [drawerItems, setDrawerItems] = useState<CareTask[]>([]);
+
+  // Load from localStorage on mount (client-side only)
+  useEffect(() => {
+    setGarden(loadGarden());
+  }, []);
+
+  const removeFromGarden = (id: string) => {
+    const updated = garden.filter((p) => p.id !== id);
+    setGarden(updated);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    } catch {
+      // ignore storage errors
+    }
+  };
 
   const openPlantDrawer = (plantId: string) => {
     const plant = getPlantById(plantId);
@@ -62,7 +89,7 @@ export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string)
         Мій сад
       </h1>
       <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '14px', color: '#34552B', opacity: 0.6, marginTop: '4px', marginBottom: '24px' }}>
-        {myGardenPlants.length} рослин · {season}
+        {garden.length} рослин · {season}
       </p>
 
       {/* Summary strip — clickable */}
@@ -91,7 +118,7 @@ export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string)
 
       {/* Plant list */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {myGardenPlants.map((gp) => {
+        {garden.map((gp) => {
           const plant = getPlantById(gp.plantId);
           const name = plant?.name ?? gp.plantId;
           const hasWater = tasks.water.some(t => t.plantName === name);
@@ -108,6 +135,25 @@ export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string)
               cursor: 'pointer',
             }}>
               <Pin color={pinColor} />
+
+              {/* Remove button */}
+              <button
+                onClick={(e) => { e.stopPropagation(); removeFromGarden(gp.id); }}
+                title="Видалити з саду"
+                style={{
+                  position: 'absolute', top: '8px', right: '10px',
+                  width: '22px', height: '22px',
+                  background: 'rgba(124,45,18,0.10)',
+                  border: 'none', borderRadius: '50%',
+                  cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: accent, fontSize: '14px', fontWeight: 700, lineHeight: 1,
+                  zIndex: 2,
+                }}
+              >
+                ×
+              </button>
+
               {(() => {
                 const img = getPlantImageUrl(gp.plantId);
                 return img ? (
@@ -118,7 +164,7 @@ export function MyGardenScreen({ onSelectPlant }: { onSelectPlant?: (id: string)
                   <PlantIcon category={gp.category} color={accent} size={44} opacity={0.45} />
                 );
               })()}
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, paddingRight: '20px' }}>
                 <h3 style={{ fontFamily: 'Caveat, cursive', fontSize: '24px', color: accent, fontWeight: 600, marginBottom: '2px' }}>
                   {name}
                 </h3>
